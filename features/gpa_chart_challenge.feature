@@ -172,3 +172,17 @@ Feature: Assignment 05, Gpa Chart Challenge
         Fail      :*
 
         """
+
+
+        Scenario: Six students, Honours, Pass and Fail
+        Given the user inputs "6,3.7,3.8,3.5,2.0,1.9,1.0"
+        When I run the Gpa Chart Challenge
+        Then I should see this output from the Gpa Chart Challenge:
+        """
+        GPA Distribution
+
+        Honours   :**
+        Pass      :**
+        Fail      :**
+
+        """
