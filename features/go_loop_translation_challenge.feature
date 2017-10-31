@@ -8,7 +8,6 @@ Feature: Assignment 05, Go Loop Translation Challenge
          HEAL(100): LIFE 100
           DMG(100): LIFE 000
         Dead now.
-
         """
         
     Scenario: Straight to death
@@ -18,7 +17,15 @@ Feature: Assignment 05, Go Loop Translation Challenge
         """
           DMG(100): LIFE 000
         Dead now.
-        
+        """
+
+    Scenario: Really, really dead
+        Given the sequence of numbers "-10000"
+        When I run the Go Loop Translation Challenge
+        Then I should see this output from the Go Loop Translation Challenge:
+        """
+          DMG(10000): LIFE 000
+        Dead now.
         """
 
     Scenario: Flirting with disaster
@@ -35,7 +42,6 @@ Feature: Assignment 05, Go Loop Translation Challenge
           DMG(003): LIFE 001
           DMG(001): LIFE 000
         Dead now.
-        
         """
 
     Scenario: Yo yo
@@ -52,5 +58,4 @@ Feature: Assignment 05, Go Loop Translation Challenge
           DMG(099): LIFE 001
           DMG(001): LIFE 000
         Dead now.
-        
         """

@@ -98,12 +98,12 @@ public class GoLoopTranslationChallengeSteps {
     
 
     public void assertEntireOutputIsExactly(String expectedOutput) throws Throwable {
-        String[] expectedChunked = expectedOutput.split("\\R");
+        String[] expectedChunked = expectedOutput.split("\\R+");
         int expectedOutputLength = expectedChunked.length;
         int actualOutputLength = outputLines.length;
 
-        if (expectedOutputLength != actualOutputLength) {
-            throw new AssertionError("Number of output lines is " + actualOutputLength + ", but expected " + expectedOutputLength + ".");
+        if (actualOutputLength != expectedOutputLength) {
+            throw new AssertionError("Expected output to be " + expectedOutputLength + " lines long, but it was " + actualOutputLength + " lines instead.");
         }
 
         for (int i = 0; i < expectedOutputLength; i++) {

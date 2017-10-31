@@ -104,21 +104,12 @@ public class GpaChartChallengeSteps {
 
     public void assertEntireOutputIsExactly(String expectedOutput) throws Throwable {
         String[] expectedChunked = expectedOutput.split("\\R+");
-        int expectedOutputLength = expectedChunked.length;
-        int actualOutputLength = outputLines.length;
 
-        if (expectedOutputLength != actualOutputLength) {
-            throw new AssertionError("Number of output lines is " + actualOutputLength + ", but expected " + expectedOutputLength + ".");
+
+        for (String expected : expectedChunked) {
+            assertRemainingOutputContainsFragment(expected);
         }
 
-        for (int i = 0; i < expectedOutputLength; i++) {
-            String expectedLine = expectedChunked[i];
-            String actualLine = outputLines[i];
-            if (!actualLine.contains(expectedLine)) {
-                String msg = String.format("%nLine %02d is %n%s%n but expected %n%s%n", i, actualLine, expectedLine);
-                throw new AssertionError(msg);
-            }
-        }
     }
 
     public void assertRemainingOutputContainsFragment(String word) throws Throwable {

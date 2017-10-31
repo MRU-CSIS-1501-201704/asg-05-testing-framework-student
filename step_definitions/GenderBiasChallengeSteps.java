@@ -91,11 +91,14 @@ public class GenderBiasChallengeSteps {
         int expectedOutputLength = expectedChunked.length;
         int actualOutputLength = outputLines.length;
 
-        if (expectedOutputLength != actualOutputLength) {
-            throw new AssertionError("Number of output lines is " + actualOutputLength + ", but expected " + expectedOutputLength + ".");
+        if (actualOutputLength != expectedOutputLength) {
+            throw new AssertionError("Expected output to be 11 lines long, but it wasn't");
         }
 
+        assertRemainingOutputContainsFragment("Run#  M : F");
+
         for (int i = 1; i < expectedOutputLength; i++) {
+
             String expectedLine = expectedChunked[i];
             String actualLine = outputLines[i];
 
@@ -106,16 +109,21 @@ public class GenderBiasChallengeSteps {
             String preColonPartActual = actualLine.substring(0, colonLocationInActual);
 
             if (!preColonPartActual.equals(preColonPartExpected)) {
-                String msg = String.format("%nLine %02d is %n%s%n but expected %n%s%n", i, preColonPartActual, preColonPartExpected);
+                String msg = String.format("%nLine %02d is %n%s: (female val)%n but expected %n%s: (female val)%n", i, preColonPartActual, preColonPartExpected);
                 throw new AssertionError(msg);
             }
 
             String postColonPartActual = actualLine.substring(colonLocationInActual + 1).trim();
 
+            if (postColonPartActual.length() != 7) {
+                String msg = String.format("%nFemale portion %s does not seem to be formatted to 5 decimal places%n", postColonPartActual);
+                throw new AssertionError(msg);
+            }
+
             double postColonPartActualAsDouble = Double.parseDouble(postColonPartActual);
 
-            if (Math.abs(postColonPartActualAsDouble - 1.0) > 0.01) {
-                String msg = String.format("%nLine %02d is %n%s%n but expected something close to %n%s%n", i, postColonPartActual, "1.00000");
+            if (Math.abs(postColonPartActualAsDouble - 1.0) > 0.1) {
+                String msg = String.format("%nLine %02d has a female value of %n%s%n but expected something close to %n%s%n", i, postColonPartActual, "1.00000");
                 throw new AssertionError(msg);
             }
         }
@@ -124,7 +132,7 @@ public class GenderBiasChallengeSteps {
 
     public void assertRemainingOutputIsEmpty() throws Throwable {
         if (this.nextLine != this.outputLines.length) {
-            throw new AssertionError("Expected no output, but there was output.");
+            throw new AssertionError("Expected no further output, but there was.");
         }
     }
     
